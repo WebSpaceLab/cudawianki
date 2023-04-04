@@ -1,0 +1,56 @@
+<script setup>
+const props = defineProps({
+    loading: Boolean
+})
+</script>
+
+<template>
+    <div v-if="loading" class="loader">
+        <div></div>
+
+        <div></div>
+    </div>
+</template>
+
+<style lang="scss" scoped>
+
+</style>
+
+<style lang="scss"  scoped>
+.loader {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.loader div {
+  position: absolute;
+  border: 4px solid #454ade;
+  border-radius: 50%;
+  animation: loader8435 1s ease-out infinite;
+}
+
+.loader div:nth-child(2) {
+  border: 4px solid #de4545;
+  animation-delay: -0.5s;
+}
+
+@keyframes loader8435 {
+  0% {
+    top: 32px;
+    left: 32px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+
+  100% {
+    top: 0;
+    left: 0;
+    width: 64px;
+    height: 64px;
+    opacity: 0;
+  }
+}
+
+</style>
