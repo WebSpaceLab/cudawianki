@@ -28,7 +28,7 @@ function toggleSelectAll (e) {
 
 
 <template>
-    <table class="min-w-full divide-y divide-gray-200 rounded-lg shadow-xl shadow-black">
+    <table class="min-w-full divide-y divide-gray-200 rounded-lg shadow-xl shadow-black table-fixed border-spacing-y-2">
         <thead class="w-full bg-gradient-to-r from-prime-light/80 to-second-light/80 dark:from-prime-dark/80 dark:to-second-dark/80 ">
             <x-table-head v-if="head" @select-all="toggleSelectAll" :head="head"/>
            

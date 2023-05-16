@@ -1,6 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
+import { GlobalSettings } from './global'
+// const appEnv = process.env.ENV || 'development'
 
+export default defineNuxtConfig({
     modules: [
         '@unocss/nuxt',
         'nuxt-icon',
@@ -10,7 +12,7 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@nuxt/devtools',
         // '@nuxt/content', 
-        '@nuxt/image-edge',
+        // '@nuxt/image-edge',
     ],
 
     app: {
@@ -30,13 +32,46 @@ export default defineNuxtConfig({
     plugins: [{ src: "@/plugins/aos", ssr: false, mode: "client" }],
 
     css: [
-        '~/assets/css/main.scss'
+        '~/assets/css/main.scss',
+        '~/assets/css/styles.css',
     ],
     
-    // runtimeConfig: {
+    runtimeConfig: {
     //     jwtAccessSecret:  process.env.JWT_ACCESS_TOKEN_SECRET,
     //     jwtRefreshSecret:  process.env.JWT_REFRESH_TOKEN_SECRET,
-    // },
+        // public: {
+        //     siteEnv: GlobalSettings[appEnv].siteEnv,
+        //     gtm_id: GlobalSettings[appEnv].googleTagManagerKey,
+        //     gtm_enabled: GlobalSettings[appEnv].googleTagManagerEnabled,
+        //     gtm_debug: GlobalSettings[appEnv].googleTagManagerDebug,
+        //     cookieConsent: {
+        //         controlButton: false,
+        //         barPosition: 'bottom-left',
+        //         necessary: [
+        //             {
+        //                 name: 'Website & API',
+        //                 description: 'Essential for the website to work correctly',
+        //                 cookies: [
+        //                     'cookie_control_consent', 'cookie_control_enabled_cookies'
+        //                 ]
+        //             },
+        //         ],
+
+        //         optional: [
+        //             {
+        //                 name: 'Mafketing',
+        //                 description: 'Used for google analytics',
+        //                 cookies: ['ga', 'ga-<token>'],
+        //             }
+        //         ],
+
+        //         colors: {
+        //             checkboxActiveBackground: '#56ff28',
+        //             checkboxInactiveBackground: '#ff3838',
+        //         },
+        //     },
+        // }
+    },
 
     colorMode: {
         classSuffix: ''

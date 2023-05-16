@@ -19,7 +19,7 @@ const { justifyContent, alignItems } = useClassPosition()
 </script>
 
 <template>
-    <th  class="px-5 py-3 w-10 text-center text-muted-light dark:text-muted-dark">
+    <th class="px-5 py-3 w-10 text-center text-muted-light dark:text-muted-dark ">
        <div
             class="w-full flex justify-start items-center space-x-4"
             :class="[

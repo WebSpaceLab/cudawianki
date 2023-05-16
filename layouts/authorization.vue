@@ -1,16 +1,15 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useLinksStore } from '@/stores/links'
-import { useSocialStore } from '@/stores/social'
 
-const {$userStore, $generalStore } = useNuxtApp()
+const {$userStore, $social} = useNuxtApp()
 
 const router = useRouter()
 
 const { sidebar } = storeToRefs(useLinksStore()) 
 
 const { isShowSidebar, isRightSide, toggleShow, switchSide, isRailSidebar, changeSizeSidebar } = useSidebar();
-const social = useSocialStore()
+const { social } = storeToRefs($social)
 
 const setColorTheme = (newTheme) => {
     useColorMode().preference = newTheme
@@ -77,8 +76,9 @@ onMounted(() => {
                             </template>
                         </x-btn>
     
-                        <template v-for="(item, index) in social.$state.data" :key="index">
+                        <template v-for="(item, index) in social" :key="index">
                             <x-link
+                                v-if="item.is_active == true"
                                 :to="item.to"
                                 class="w-8 h-8 flex items-center justify-center rounded-full text-basic-light dark:text-basic-dark mr-3 sm:mr-4 lg:mr-3 xl:mr-4"
                                 target="_blank"
@@ -115,7 +115,6 @@ onMounted(() => {
             
 
             <x-main :is-show-sidebar="isShowSidebar" :is-rail-sidebar="isRailSidebar">
-                <x-toast />
                 <slot/>
             </x-main>
         </template>

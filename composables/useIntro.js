@@ -40,7 +40,7 @@ export function useIntro() {
                     }, 500)
 
                    
-                }, 3000)
+                }, 6600)
 
             } else {
                 isShowIntro.value = false

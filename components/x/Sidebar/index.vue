@@ -62,18 +62,8 @@ function typeLinks(type) {
 
                     <x-border class="" yt="4" yb="4" color=""/>
 
-                    <div class="flex justify-center items-center px-4 box-border transition-all duration-300 ease-in">
-                        <x-btn v-if="isRailSidebar" color="secondary" strip icon>
-                            <Icon name="bi:search" class="text-xl"></Icon>
-                        </x-btn>
-
-                        <x-search  v-model="search" icon iconPosition="right" v-else />
-                    </div>
-
-                    <x-border class="hidden lg:flex" yt="4" yb="4" color=""/>
-
                     <nav class="w-full">
-                        <ul class="list-none overflow-auto flex flex-col justify-center items-start p-0 px-4 box-border" :class="[isRailSidebar ? 'w-10' : 'w-full']">
+                        <ul class="list-none overflow-y-auto flex flex-col justify-center items-start p-0 px-4 box-border" :class="[isRailSidebar ? 'w-10' : 'w-full']">
                             <template v-for="(link, index) in typeLinks('basic')" :key="index">
                                 <x-sidebar-item :link="link" :isRailSidebar="isRailSidebar" />
                             </template>
@@ -90,7 +80,7 @@ function typeLinks(type) {
                     <x-border class="hidden lg:flex" yt="4" yb="4" color=""/>
 
                     <div class="px-2 pt-4">
-                        <ul class="list-none overflow-auto flex flex-col justify-center items-start p-0 px-4 box-border" :class="[isRailSidebar ? 'w-10' : 'w-full']">
+                        <ul class="list-none overflow-y-auto flex flex-col justify-center items-start p-0 px-4 box-border" :class="[isRailSidebar ? 'w-10' : 'w-full']">
                             <template v-for="(link, index) in typeLinks('settings')" :key="index">
                                 <x-sidebar-item :link="link" :isRailSidebar="isRailSidebar" />
                             </template>

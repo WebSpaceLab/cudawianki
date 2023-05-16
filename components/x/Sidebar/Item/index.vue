@@ -5,40 +5,63 @@ const props = defineProps({
 });
 
 let open = ref(false);
+
+watch(() => props.isRailSidebar, (event) => {
+    if(event === true) {
+        open.value = false
+    }
+})
 </script>
 
 <template>
-    <li class="w-full mt-4 transition-all duration-300 ease-in">
-        <NuxtLink v-if="!link.children.length" activeClass="link-active" class="h-10 w-full flex decoration-none text-muted-light  dark:text-muted-dark hover:text-hover-800  dark:hover:text-hover-200  rounded" :to="{path: link.path }" :class="isRailSidebar ? '' : ''">
+    <li class="w-full mt-4 transition-all duration-300 ease-in list-none">
+        <NuxtLink
+            v-if="!link.children.length"
+            :class="isRailSidebar ? '' : ''"
+            :to="{path: link.path }"
+            class="h-10 w-full flex decoration-none text-muted-light  dark:text-muted-dark hover:text-hover-800  dark:hover:text-hover-200  rounded"
+            activeClass="link-active"
+        >
             <div class="w-10">
                 <Icon class="text-2xl" :name="link.icon"></Icon>
             </div>
 
             <span class="ml-3" v-if="!isRailSidebar" >{{ link.title }}</span>
+
         </NuxtLink>
 
-       <div
+       <NuxtLink
             v-else
+            :to="{ path: link.path }"
             :class="[
                 isRailSidebar ? '' : '',
                 open ? 'font-semibold text-blue-600' : 'font-medium hover:bg-hover'
             ]"
-            @click="open = !open"
-            class="flex justify-between items-center cursor-pointer h-10 w-full rounded "
+            class="flex justify-between items-center cursor-pointer decoration-none h-10 w-full rounded  dark:text-muted-dark hover:text-hover-800  dark:hover:text-hover-200 "
+            activeClass="link-active"
         >
            <div v-if="!isRailSidebar" class="flex items-start">
-               <div v-if="!open" class="flex justify-center w-10 items-center">
+               <div v-if="!open" class="flex justify-start w-10 items-center">
                    <Icon class="text-2xl" :name="link.icon"></Icon>
                </div>
 
                <span class="ml-3" >{{ link.title }}</span>
            </div>
 
-            <span v-if="link.children.length">
-                <Icon v-if="isRailSidebar && !open" class="text-2xl" :name="link.icon"></Icon>
-                <Icon v-else name="material-symbols:play-arrow-outline" class="text-2xl transition-all duration-200 ease-in" :class="open ? 'rotate-90 text-blue-600' : 'fa-rotate-0 text-muted-light dark:text-muted-dark'"></Icon>
+            <span
+                v-if="link.children.length"
+            >
+                <Icon v-if="isRailSidebar && !open" class="text-2xl" :name="link.icon"/>
+
+                <Icon
+                  v-else
+                  @click="open = !open"
+                  :class="open ? 'rotate-90 text-blue-600' : 'fa-rotate-0 text-muted-light dark:text-muted-dark'"
+                  class="text-2xl transition-all duration-200 ease-in"
+                  name="material-symbols:play-arrow-outline"
+                />
             </span>
-        </div>
+        </NuxtLink>
 
         <transition
             enter-active-class="transition ease-out duration-300"

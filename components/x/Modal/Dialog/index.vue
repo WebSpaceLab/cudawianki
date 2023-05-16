@@ -16,17 +16,22 @@ defineProps({
     },
     title: {
         type: String
-    }
+    },
+
 });
 
 const close = () => {
-    emit('close');
+    emit('close', false);
 };
+
+const minimization = ref(false)
+
 </script>
 
 <template>
     <x-modal
         :show="show"
+        :minimization="minimization"
         :max-width="maxWidth"
         :closeable="closeable"
         @close="close"
@@ -37,11 +42,16 @@ const close = () => {
                     <h3 class="text-bold text-basic-light dark:text-basic-dark">
                         <slot name="title">{{ title }}</slot>
                     </h3>
-    
-                    <x-btn @click="close" color="warning-outline" rounded>x</x-btn>
+
+                    <div class="flex space-x-4">
+                        <!--
+                            <x-btn @click="minimization = !minimization" color="warning-outline" :tooltip="{ text: 'Minimization'}" rounded>_</x-btn>
+                        -->
+                        <x-btn @click="close" color="warning-outline" rounded>x</x-btn>
+                    </div>
                 </div>
     
-                <div class="h-full px-6">
+                <div class="max-h-200 px-6 overflow-y-auto">
                     <slot  />
                 </div>
             </div>

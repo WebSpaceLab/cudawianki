@@ -1,7 +1,11 @@
 <script setup>
-  import { useSocialStore } from '@/stores/social'
+  import { storeToRefs } from 'pinia';
+        
+  const { $contact, $social } = useNuxtApp()
 
-  const social = useSocialStore()
+  const { title, description, address, openingHours, phone, map } = storeToRefs($contact)
+  const { social } = storeToRefs($social)
+
 </script>
 
 <template>
@@ -27,8 +31,7 @@
                             </span>
 
                             <p class="w-full h-full text-base  mb-7">
-                            Sed ut perspiciatis undmnis is iste natus error sit amet
-                            voluptatem totam rem aperiam.
+                                {{ description }}
                             </p>
                         </div>
 
@@ -40,15 +43,7 @@
                                     <strong>Adres: </strong>
                                 </span>
 
-                                <span class="flex flex-col items-start justify-start">
-                                    <span>
-                                    ul. Emilii Plater 15
-                                    </span>
-
-                                    <span>
-                                        16-400 Suwałki
-                                    </span>
-                                </span>
+                                <span class="flex flex-col items-start justify-start" v-html="address"></span>
                             </span>
                         </div>
 
@@ -60,11 +55,7 @@
                                     <strong>Godziny otwarcia: </strong>
                                 </span>
 
-                                <span class="flex flex-col items-start justify-start">
-                                    <span>Pon. - Pt.: 08:00-17:00</span>
-                                    <span>Sob.: 08-15:00</span> 
-                                    <span>Nd.: Zamknięte</span>  
-                                </span>
+                                <span class="flex flex-col items-start justify-start" v-html="openingHours"></span>
                             </span>
                         </div>
 
@@ -75,9 +66,7 @@
                                     <strong>Telefon: </strong>
                                 </span>
 
-                                <span>
-                                    663 609 824
-                                </span>
+                                <span v-html="phone"></span>
                             </span>
 
                         </div>
@@ -141,7 +130,7 @@
                             <h4 class="text-lg font-semibold mb-4">Śledź nas na:</h4>
             
                             <div class="flex items-center mb-6">
-                                <template v-for="(item, index) in social.$state.data" :key="index">
+                                <template v-for="(item, index) in social" :key="index">
                                     <x-link
                                         :to="item.to"
                                         class="w-8 h-8 flex items-center justify-center rounded-full text-basic-light dark:text-basic-dark mr-3 sm:mr-4 lg:mr-3 xl:mr-4"
@@ -154,9 +143,7 @@
                         </div>
                     </div>
 
-                    <div class="relative ">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11126.627250986201!2d22.90157878164677!3d54.10769236501687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46e1023717183eab%3A0xb87a06db05bda594!2sKwiaciarnia%20Cuda%20Wianki!5e0!3m2!1spl!2spl!4v1675163525305!5m2!1spl!2spl" class="w-full h-full rounded-lg" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
+                    <div class="relative " v-html="map"></div>
                 </div>
             </div>
         </div>

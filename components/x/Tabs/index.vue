@@ -24,14 +24,14 @@ function switchTab(index) {
 </script>
 
 <template>
-    <div class="w-full">
-        <div class="h-full flex justify-start items-end space-x-3 border-b-solid border-slate-900 ">
+    <div class="w-full bg-gray-200/20 dark:bg-gray-800/20 transition-all duration-500 rounded-xl">
+        <div class="h-full flex justify-start items-end space-x-3 bg-gray-200/20 dark:bg-gray-800/20 pt-3 px-3 rounded-t-xl">
             <span
                 v-for="(tab, index) in tabs " :key="index"
                 @click="switchTab(index)"
-                class="min-w-30 text-center text-sm text-bold cursor-pointer px-3 py-2 border-b-solid "
+                class="min-w-30 text-center text-sm text-bold cursor-pointer px-3 py-2 border-b-solid rounded-t-xl"
                 :class="[
-                    active === index ? 'text-active-800 dark:text-active-400 border-active-800 dark:border-active-400 ' : 'text-slate-700 dark:text-slate-600 border-slate-700 dark:border-slate-600 dark:hover:text-hover-600 dark:hover:text-hover-200 dark:hover:border-hover-600 dark:hover:border-hover-200',
+                    active === index ? 'text-active-800 dark:text-active-400 border-active-800 dark:border-active-400 bg-black/10' : 'text-slate-700 dark:text-slate-600 border-slate-700 dark:border-slate-600 dark:hover:text-hover-600 dark:hover:text-hover-200 dark:hover:border-hover-600 dark:hover:border-hover-200',
                     uppercase ? 'uppercase' : ''
                 ]"
             >

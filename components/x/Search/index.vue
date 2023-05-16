@@ -2,11 +2,11 @@
 const props = defineProps({
     color: {
         type: String,
-        default: 'blue'
+        default: 'gray'
     },
     placeholder: {
         type: String,
-        default: 'Szukaj'
+        default: 'Search'
     },
     icon: {
         type: Boolean,
@@ -22,7 +22,7 @@ const props = defineProps({
     },
     iconColor: {
         type: String,
-        default: 'blue'
+        default: 'gray'
     },
     modelValue: {
         type: String,
@@ -36,12 +36,13 @@ const emits = defineEmits([
 
 let inputColor = computed(() => {
     return {
-        'blue' : 'text-blue-500 focus:text-blue-600 border-blue-500 focus:border-blue-600 placeholder-blue-600',
-        'red' : 'text-red-500 focus:text-red-600 border-red-500 focus:border-red-600 placeholder-red-600',
-        'green' : 'text-green-500 focus:text-green-600 border-green-500 focus:border-green-600 placeholder-green-600',
-        'info' : 'text-info focus:text-info border-info focus:border-info placeholder-info',
-        'error' : 'text-error focus:text-error border-error focus:border-error placeholder-error',
-        'success' : 'text-success focus:text-success border-success focus:border-success placeholder-success',
+        'blue' : 'text-blue-500 focus:text-blue-600 border-blue-500 focus:border-blue-600 placeholder-blue-600 bg-transparent',
+        'red' : 'text-red-500 focus:text-red-600 border-red-500 focus:border-red-600 placeholder-red-600 bg-transparent',
+        'green' : 'text-green-500 focus:text-green-600 border-green-500 focus:border-green-600 placeholder-green-600 bg-transparent',
+        'gray' : 'text-gray-500 focus:text-gray-600 border-gray-500 focus:border-gray-600 placeholder-gray-600 bg-transparent',
+        'info' : 'text-info focus:text-info border-info focus:border-info placeholder-info bg-transparent',
+        'error' : 'text-error focus:text-error border-error focus:border-error placeholder-error bg-transparent',
+        'success' : 'text-success focus:text-success border-success focus:border-success placeholder-success bg-transparent',
     } [ props.color]
 });
 
@@ -50,6 +51,7 @@ let iconColor = computed(() => {
         'blue' : 'text-blue-600',
         'red' : 'text-red-600',
         'green' : 'text-green-600',
+        'gray' : 'text-gray-600',
         'info' : 'text-info ',
         'error' : 'text-error',
         'success' : 'text-success',

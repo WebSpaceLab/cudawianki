@@ -15,10 +15,15 @@ const props = defineProps({
     overflowHidden: {
         type: Boolean,
         default: true
+    },
+    minimization: {
+        type: Boolean,
+        default: false,
     }
 });
 
 const emit = defineEmits(['close']);
+
 
 watch(() => props.show, () => {
     if (props.show) {
@@ -27,6 +32,13 @@ watch(() => props.show, () => {
         document.body.style.overflow = null;
     }
 });
+
+// watch(() => props.minimization, () => {
+//     console.log(props.minimization)
+//     // if (minimization) {
+//     //     props.show = false
+//     // } 
+// })
 
 const close = () => {
     if (props.closeable) {
@@ -49,16 +61,17 @@ onUnmounted(() => {
 
 const maxWidthClass = computed(() => {
     return {
-        'sm': 'sm:max-w-sm',
-        'md': 'sm:max-w-md',
-        'lg': 'sm:max-w-lg',
-        'xl': 'sm:max-w-xl',
-        '2xl': 'sm:max-w-2xl',
-        '3xl': 'sm:max-w-3xl',
-        '4xl': 'sm:max-w-4xl',
-        '5xl': 'sm:max-w-5xl',
-        '6xl': 'sm:max-w-6xl',
-        '7xl': 'sm:max-w-7xl',
+        'sm': ' sm:w-full sm:max-w-sm',
+        'md': ' sm:w-full sm:max-w-md',
+        'lg': ' sm:w-full sm:max-w-lg',
+        'xl': ' sm:w-full sm:max-w-xl',
+        '2xl': ' sm:w-full sm:max-w-2xl',
+        '3xl': ' sm:w-full sm:max-w-3xl',
+        '4xl': ' sm:w-full sm:max-w-4xl',
+        '5xl': ' sm:w-full sm:max-w-5xl',
+        '6xl': ' sm:w-full sm:max-w-6xl',
+        '7xl': ' sm:w-full sm:max-w-7xl',
+        'max': 'inset-0'
     }[props.maxWidth];
 });
 
@@ -67,7 +80,7 @@ const maxWidthClass = computed(() => {
 <template>
     <teleport to="body">
         <transition leave-active-class="duration-200">
-            <div v-show="show" class="fixed flex justify-center items-center inset-0  sm:px-0 z-60" scroll-region>
+            <div v-show="show" class="fixed flex justify-center items-center inset-0  sm:px-0 z-70" scroll-region>
                 <transition
                     enter-active-class="ease-out duration-300"
                     enter-from-class="opacity-0"
@@ -82,25 +95,28 @@ const maxWidthClass = computed(() => {
                 </transition>
 
                 <transition
-                    enter-active-class="ease-out duration-300"
-                    enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    enter-to-class="opacity-100 translate-y-0 sm:scale-100"
+
+                    enter-active-class="transition ease-in duration-300"
+                    enter-from-class="transform scale-0"
+                    enter-to-class="transform scale-100"
                     leave-active-class="ease-in duration-200"
                     leave-from-class="opacity-100 translate-y-0 sm:scale-100"
                     leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                     <div
                         v-show="show"
-                        class="rounded-lg shadow-xl shadow-black transform transition-all sm:w-full sm:mx-auto"
+                        class="rounded-lg shadow-xl shadow-black transform transition-all sm:mx-auto z-80"
                         :class="[
                             maxWidthClass,
                             overflowHidden ? 'overflow-hidden' : ''
                         ]"
                     >
                         <slot v-if="show" />
+                  
                     </div>
                 </transition>
             </div>
+
         </transition>
     </teleport>
 </template>

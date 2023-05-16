@@ -1,9 +1,16 @@
 <script setup >
 import axios from '~/plugins/axios'
-const { $mediaStore } = useNuxtApp()
+const { $flash } = useNuxtApp()
 
 const $axios = axios().provide.axios
-const emits = defineEmits(['addedToLibrary', 'editFile'])
+const emits = defineEmits(['addedToLibrary'])
+
+const props = defineProps({
+    multiple: {
+        type: Boolean,
+        default: true
+    }
+})
 
 const dragging = ref(false)
 const media = ref([])
@@ -36,18 +43,21 @@ function uploadFiles(files) {
                 },
             })
             .then(({data}) => {
-                media.uploaded = true;
-                media.id = data.id;
-                media.preview_url = data.preview_url;
+                emitAddedToLibrary(data.file);
 
-                emits('addedToLibrary', true);
+                media.uploaded = true;
+                media.id = data.file.id;
+                media.preview_url = data.file.preview_url;
+
+                $flash.success(data.flash.message)
             })
             .catch(error => {
                 media.error = 'Uploaded Fail. Please try again later;';
                 if (error?.response.status === 422) {
                     media.error = error.response.data.errors.file[0];
                 }
-
+                
+                $flash.error(media.error)
             })
         })
     ;
@@ -117,26 +127,26 @@ function emitAddedToLibrary (event) {
                 <label class="bg-white px-4 h-9 inline-flex items-center rounded border border-gray-300 shadow-sm text-sm font-medium text-gray-700 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                     Select files
 
-                    <input ref="files" @input="onSelectedFiles" type="file" name="files" multiple class="sr-only">
+                    <input ref="files" @input="onSelectedFiles" type="file" name="files" :multiple="multiple" class="sr-only">
                 </label>
 
                 <p class="text-xs text-gray-600 mt-4">Maximum upload file size: 512MB.</p>
             </div>
         </div>
  
-        <ul  class="relative w-full h-100 overflow-y-scroll">
+        <ul v-if="media.length"  class="relative w-full  overflow-y-scroll">
             <li
                 v-for="(item, index) in media" :key="index"
                 class="p-3 bg-prime-light dark:bg-prime-dark text-muted-light dark:text-muted-dark flex items-center space-x-2 my-2 rounded-lg"
             >
 
                 <div v-if="item.preview_url" class="w-20 h-20 bg-gray-300 flex-shrink-0 rounded-lg">
-                    <nuxt-img :src="item.preview_url" :alt="item.file.name" class="h-full w-full rounded-lg" />
+                    <img :src="item.preview_url" :alt="item.file.name" class="h-full w-full rounded-lg" />
                 </div>
 
                 <div class="text-xs text-gray-400 flex-1 truncate">{{ item.file.name }}</div>
 
-                <div v-if="!item.uploaded && !item.error" class="w-40 bg-gray-200 rounded-full h-5 shadow-inner overflow-hidden relative flex items-center justify-center">
+                <div v-if="!item.uploaded && !item.error" class="w-40 bg-gray-400/60 rounded-full h-5 shadow-inner overflow-hidden relative flex items-center justify-center">
 
                     <div class="inline-block h-full bg-indigo-600 absolute top-0 left-0" :style="`width: ${item.progress}%`"></div>
 

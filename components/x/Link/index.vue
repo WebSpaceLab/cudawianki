@@ -32,7 +32,8 @@ const classColor = computed(() => {
     return {
         'primary' : 'decoration-none text-primary-400 hover:text-primary-600',
         'secondary' : 'decoration-none text-secondary-400  hover:text-secondary-600',
-        'basic' : 'decoration-none text-basic-light dark:text-basic-dark hover:text-hover-800 dark:hover:text-hover-400'
+        'basic' : 'decoration-none text-basic-light dark:text-basic-dark hover:text-hover-800 dark:hover:text-hover-400',
+        'white' : 'decoration-none text-white  hover:text-secondary-600',
     } [props.color]
 })
 

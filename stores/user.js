@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from '../plugins/axios'
+import { useFlashStore } from './flash'
 
 const $axios = axios().provide.axios
 
@@ -39,11 +40,15 @@ export const useUserStore = defineStore('user', {
             this.$state.name = res.data[0].name
             this.$state.bio = res.data[0].bio
             this.$state.avatar_url = res.data[0].avatar_url
+
+            useFlashStore().info(`User ${this.$state.name} has logged in.`)
+            return res.data[0]
         },
 
         async logout() {
             this.resetUser()
             await $axios.post('/logout')
+            useFlashStore().info(`user has been logged out.`)
         },
 
         resetUser() {      

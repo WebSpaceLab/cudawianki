@@ -1,5 +1,5 @@
 <script setup>
-const { $userStore, $generalStore } = useNuxtApp()
+const { $userStore, $generalStore, $flash } = useNuxtApp()
 let canSeeThePassword = ref(false)
 const router = useRouter()
 
@@ -22,8 +22,8 @@ const login = async () => {
 
         router.push('/dashboard')
     } catch (error) {
-        console.error(error)
         errors.value = error.response.data.errors
+        $flash.error(error.response.data.errors)
     } finally {
         data.loading = false
     }
@@ -31,7 +31,7 @@ const login = async () => {
 </script>
 
 <template>
-    <div class="relative w-full">
+    <form class="relative w-full">
         <span class="w-full flex flex-col justify-center items-center">
             <Icon name="bi:person-fill" class="w-30 h-30" />
             <div class="text-center text-[28px] mb-4 font-bold">Log in</div>
@@ -43,6 +43,7 @@ const login = async () => {
                 color="blue"
                 label="@email"
                 icon
+                name="email_login"
                 :error="errors && errors.email ? errors.email[0] : ''"
             >
                 <template #icon>
@@ -57,6 +58,7 @@ const login = async () => {
                 label="@password"
                 icon
                 right-icon
+                name="password_login"
                 :error="errors && errors.password ? errors.password[0] : ''"
             >
                 <template #icon>
@@ -72,11 +74,20 @@ const login = async () => {
             <div class="px-6 text-[12px] text-gray-600">Forget password?</div>
 
             <div class="w-full space-y-6">
-                <x-btn @click="login" class="w-full" type="submit" rounded shadow color="success-outline" :disabled="(!data.email || !data.password)">Login</x-btn>
+                <x-btn
+                    :disabled="(!data.email || !data.password)"
+                    @click="login"
+                    @keydown.enter="login"
+                    class="w-full"
+                    color="success-outline"
+                    :loading="data.loading"
+                    rounded
+                    shadow
+                >Login</x-btn>
                 <!--
                     <x-btn  class="w-full" rounded shadow color="info-outline">Register</x-btn>
                 -->
             </div>
         </div>        
-    </div>
+    </form>
 </template>

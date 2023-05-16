@@ -19,16 +19,16 @@ let isRegister = ref(true)
                     <Icon name="material-symbols:line-start-arrow-notch"  class="text-info-600 hover:text-info-300" size="26" /> 
                 </x-btn>
             
-                <x-btn
-                    @click="$generalStore.isLoginOpen = false"
-                    color="danger-outline"
-                    icon
-                    strip
-                    :tooltip="{text: 'Close'}"
-                >
-                    <Icon name="mdi:close" class="text-red-600 hover:text-red-200" size="26" /> 
-                </x-btn>
-            <!--
+                <!--
+                    <x-btn
+                        @click="$generalStore.isLoginOpen = false"
+                        color="danger-outline"
+                        icon
+                        strip
+                        :tooltip="{text: 'Close'}"
+                    >
+                        <Icon name="mdi:close" class="text-red-600 hover:text-red-200" size="26" /> 
+                    </x-btn>
             -->
             </div>
 

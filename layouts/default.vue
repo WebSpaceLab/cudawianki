@@ -1,10 +1,8 @@
 <script setup>
     import { useNavbar } from '@/stores/navbar'
-    import { usePackagesStore } from '@/stores/packages'
     import { storeToRefs } from 'pinia'
-    import { useSocialStore } from '@/stores/social'
 
-    const {$userStore, $generalStore } = useNuxtApp()
+    const {$userStore, $social, $offers, $generalStore} = useNuxtApp()
 
     const router = useRouter()
 
@@ -14,15 +12,15 @@
     }
     
     const navbar = useNavbar()
-    const social = useSocialStore()
+    const {social} = storeToRefs($social)
     
-    const { offer } = storeToRefs(usePackagesStore())
-
-    let packIndex = ref(0);
-    let isCloseMenuSM = ref(false);
+    const { offers } = storeToRefs($offers)
+    let bufferOfferId = ref(null)
 
     onMounted(() => {
-        intro()
+     
+            intro()
+        
         scrollNavbar()
     })
 
@@ -35,12 +33,12 @@
         }
     }
 
-    function activateDropdown(index) {
-        if(index !== null) {
-            packIndex.value = index
+    function activateDropdown(offerId) {
+        if(offerId !== null) {
+            bufferOfferId.value = offerId
             navbar.activate()
         } else {
-            packIndex.value = index
+            bufferOfferId.value = offerId
             navbar.close()
         }
     }
@@ -48,7 +46,22 @@
 </script>
 
 <template>
-    <x-layout>
+    <teleport to="body">
+        <transition                                
+            enter-active-class="transition ease-in duration-200"
+            enter-from-class="transform scale-100 opacity-0 blur-100 grayscale"
+            enter-to-class="transform scale-100 opacity-100 blur-0 grayscale-0"
+            leave-active-class="transition ease-in duration-1000"
+            leave-from-class="transform opacity-100 scale-100 translate-x-0 translate-y-0 blur-0 brightness-0"
+            leave-to-class="transform opacity-0 scale-60 translate-x-50 -translate-y-10 blur-100 brightness-500"
+        >
+            <div v-if="isShowIntro" class="h-screen w-screen fixed top-0 left-0 z-100 bg-background-light/80 dark:bg-background-dark/80 ">
+                <video  id="intro-video" class="min-w-screen h-screen" src="/movie/intro.mp4" autoplay muted></video>
+            </div>
+        </transition>
+    </teleport>
+    
+    <x-layout v-if="!isShowIntro || !$generalStore.loading">
         <template #header>
             <div class="relative ">
             
@@ -66,39 +79,31 @@
                     <template  #content>
                         <ul class="flex flex-col lg:flex-row justify-start lg:justify-center items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-5 ">
                             <li class="list-none ">
-                                <x-link @click="navbar.closeMenuSm"  :to="{path: '/'}" stress  @mousemove="activateDropdown(null)">Strona główna</x-link>
+                                <x-link @click="navbar.closeMenuSm" color="white" :to="{path: '/'}" stress  @mousemove="activateDropdown(null)">Strona główna</x-link>
+                            </li>
+
+                            <li v-if="$offers.offers.length != 0" class="list-none ">
+                                <x-link-hash @click="navbar.closeMenuSm" color="white" :to="{path: '/', hash: '#offer'}"  text="Oferta"  stress hash="#offer" @mousemove="activateDropdown(null)"></x-link-hash>
+                            </li>
+
+                            <li v-if="$about.activeAbout.length != 0" class="list-none ">
+                                <x-link-hash @click="navbar.closeMenuSm" color="white" :to="{path: '/', hash: '#o-nas'}"  text="O nas"  stress hash="#o-nas" @mousemove="activateDropdown(null)"></x-link-hash>
+                            </li>
+                            
+                            <li v-for="item in $offers.offers" :key="item.id" class="list-none">
+                                <x-link
+                                    :to="{path: item.path }"
+                                    @click="navbar.closeMenuSm"
+                                    @mousemove="activateDropdown(item.categories.length == 0 ? null : item.id)"
+                                    color="white"
+                                    stress
+                                >
+                                    {{ item.title }}
+                                </x-link>
                             </li>
 
                             <li class="list-none ">
-                                <x-link-hash @click="navbar.closeMenuSm"  :to="{path: '/', hash: '#offer'}"  text="Oferta"  stress hash="#offer" @mousemove="activateDropdown(null)"></x-link-hash>
-                            </li>
-
-                            <li class="list-none ">
-                                <x-link-hash @click="navbar.closeMenuSm"  :to="{path: '/', hash: '#o-nas'}"  text="O nas"  stress hash="#o-nas" @mousemove="activateDropdown(null)"></x-link-hash>
-                            </li>
-
-                            <li class="list-none ">
-                                <x-link @click="navbar.closeMenuSm"  :to="{path: '/oferta/balony' }" stress @mousemove="activateDropdown(0)">Balony</x-link>
-                            </li>
-
-                            <li class="list-none ">
-                                <x-link @click="navbar.closeMenuSm"   :to="{path: '/oferta/kwiaty' }" stress @mousemove="activateDropdown(1)">Kwiaty</x-link>
-                            </li>
-
-                            <li class="list-none ">
-                                <x-link @click="navbar.closeMenuSm"  :to="{path: '/oferta/strojenia' }" stress @mousemove="activateDropdown(2)">Strojenia</x-link>
-                            </li>
-
-                            <li class="list-none ">
-                                <x-link @click="navbar.closeMenuSm"  :to="{path: '/oferta/wianki' }" stress @mousemove="activateDropdown(null)">Wianki</x-link>
-                            </li>
-
-                            <li class="list-none ">
-                                <x-link @click="navbar.closeMenuSm"  :to="{path: '/oferta/wiazanki' }" stress @mousemove="activateDropdown(4)">Wiązanki</x-link>
-                            </li>
-
-                            <li class="list-none ">
-                                <x-link @click="navbar.closeMenuSm"  to="/kontakt" text="Kontakt" stress @mousemove="activateDropdown(null)"></x-link>
+                                <x-link @click="navbar.closeMenuSm" color="white" to="/kontakt" text="Kontakt" stress @mousemove="activateDropdown(null)"></x-link>
                             </li>
                         </ul>
                     </template>
@@ -111,8 +116,9 @@
                             </template>
                         </x-btn>
 
-                        <template v-for="(item, index) in social.$state.data" :key="index">
+                        <template v-for="(item, index) in social" :key="index">
                             <x-link
+                                v-if="item.is_active == true"
                                 :to="item.to"
                                 class="w-8 h-8 flex items-center justify-center rounded-full text-basic-light dark:text-basic-dark mr-3 sm:mr-4 lg:mr-3 xl:mr-4"
                                 target="_blank"
@@ -151,11 +157,12 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95"
                             >
-                                <ul v-if="packIndex !== null" class="w-full h-full flex flex-col lg:flex-row justify-center items-center space-y-5 lg:space-y-0 lg:space-x-5">
-
-                                    <li v-for="pack in offer[packIndex].content" :key="pack.id" class="list-none w-40 h-40">
-                                        <card-small :item="pack" />
-                                    </li>
+                                <ul v-if="bufferOfferId !== null" class="w-full h-full flex  justify-center items-center space-y-5 lg:space-y-0 lg:space-x-5">
+                                    <template v-for="offer in offers" :key="offer.id" >
+                                        <li v-if="offer.id === bufferOfferId" class="list-none h-40 flex space-x-5">
+                                            <card-small class="w-40 " v-for="category in offer.categories" :key="category.id"  :item="category" />
+                                        </li>
+                                    </template>
                                 </ul>
                             </transition>
                         </navbar-dropdown>
@@ -165,18 +172,7 @@
         </template>
 
         <template #main>
-            <transition 
-                leave-active-class="transition ease-in duration-500"
-                leave-from-class="transform scale-100 opacity-100"
-                leave-to-class="transform scale-100 opacity-0"
-            >
-                <div v-if="isShowIntro" class="h-screen w-screen fixed top-0 left-0 z-60">
-                    <video  id="intro-video" class="min-w-full" src="/movie/intro.mp4" autoplay muted></video>
-                </div>
-            </transition>
-
             <div v-if="!isShowIntroLogo && !isShowIntro" class="m-0">
-
                 <slot  />
             </div>
         </template>

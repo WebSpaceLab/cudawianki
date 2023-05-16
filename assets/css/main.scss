@@ -5,6 +5,10 @@ body {
     padding: 0 !important;
 }
 
+body {
+    @apply bg-background-light dark:bg-background-dark;
+}
+
 html {
     // font-family: 'Kalam', cursive !important;
     box-sizing: border-box;

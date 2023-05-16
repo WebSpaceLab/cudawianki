@@ -1,5 +1,5 @@
 <script setup>
-const { $userStore, $generalStore } = useNuxtApp()
+const { $userStore } = useNuxtApp()
 let canSeeThePassword = ref(false)
 let canSeeTheConfirmPassword = ref(false)
 
@@ -19,17 +19,18 @@ const register = async () => {
 
     try {
         await $userStore.getTokens()
+
         await $userStore.register(
             data.name, 
             data.email, 
             data.password, 
             data.confirmPassword
         )
+
         await $userStore.getUser()
 
-        route.path('/dashboard')
+        router.push('/dashboard')
     } catch (error) {
-        console.error(error)
         errors.value = error.response.data.errors
     } finally {
         data.loading = false
@@ -38,8 +39,7 @@ const register = async () => {
 </script>
 
 <template>
-    <div class="w-full">
-        {{ data }}
+    <form class="w-full">
         <span class="w-full flex flex-col justify-center items-center">
             <Icon name="bi:person-fill-add" class="w-30 h-30" />
             <div class="text-center text-[28px] mb-4 font-bold">Sign in</div>
@@ -51,6 +51,7 @@ const register = async () => {
                 color="blue"
                 label="@Full name"
                 icon
+                name="register_name"
                 :error="errors && errors.name ? errors.name[0] : ''"
             >
                 <template #icon>
@@ -63,6 +64,7 @@ const register = async () => {
                 color="blue"
                 label="@Email"
                 icon
+                name="register_email"
                 :error="errors && errors.email ? errors.email[0] : ''"
             >
                 <template #icon>
@@ -76,6 +78,7 @@ const register = async () => {
                 color="blue"
                 label="@Password"
                 icon
+                name="register_password"
                 right-icon
                 :error="errors && errors.password ? errors.password[0] : ''"
             >
@@ -95,6 +98,7 @@ const register = async () => {
                 color="blue"
                 label="@Confirm password"
                 icon
+                name="register_password_confirm"
                 right-icon
                 :error="errors && errors.confirmPassword ? errors.confirmPassword[0] : ''"
             >
@@ -112,14 +116,14 @@ const register = async () => {
                 <x-btn
                     :disabled="(!data.name || !data.email || !data.password || !data.confirmPassword)"
                     @click="register()"
+                    @keydown.enter="register()"
                     text="Sign Up"
                     class="w-full"
                     color="success-outline"
-                    type="submit"
                     rounded
                     shadow
                 /> 
             </div>
         </div>        
-    </div>
+    </form>
 </template>

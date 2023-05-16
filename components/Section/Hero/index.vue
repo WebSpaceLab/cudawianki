@@ -1,11 +1,15 @@
 <script setup>
-    const {isShowIntroLogo } = useIntro()
+    const props = defineProps({
+        title: String,
+        description: String
+    })
+    // const {isShowIntroLogo } = useIntro()
     
-    function play() { 
-        var introVideo = document.getElementById("intro-video")
+    // function play() { 
+    //     var introVideo = document.getElementById("intro-video")
 
-        introVideo.play()
-    } 
+    //     introVideo.play()
+    // } 
 </script>
 
 <template>
@@ -24,16 +28,13 @@
                         <img src="/images/vector/flowers.webp" alt="Kwiaty" class="hidden lg:block lg:absolute -top-50 -left-50 w-150">
 
                         <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold m-0 mt-8 mb-10 lg:mb-2 p-3 backdrop-blur-xl text-transparent bg-clip-text bg-gradient-to-r from-muted-light to-basic-light dark:from-muted-dark dark:to-basic-dark   lg:translate-x-6 rounded-xl">
-                            Cuda Wianki
+                            {{ title }}
                         </h1>
                     </div>
                     
                     <div class="backdrop-blur rounded-xl p-6 bg-gradient-to-r from-prime-light/80 to-second-light/80 dark:from-prime-dark/80 dark:to-second-dark/80">
                         <p class="text-md lg:text-2xl text-bold text-center  text-basic-light dark:text-muted-dark ">
-                            Nasza kwiaciarnia mieści się na ul. Emilii Plater 15
-                            Cuda Wianki tworzymy od 13 lat.
-                            Znajdziesz u nas kwiaty cięte, doniczkowe, kwiaty sztuczne. Zajmujemy się dekoracjami na różne okazje,
-                             posiadamy również w swojej ofercie dekoracje balonowe.
+                            {{ description }}
                         </p>
                     </div>
                 </div>

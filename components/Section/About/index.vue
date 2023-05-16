@@ -51,9 +51,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <section id="o-nas" class="w-full min-h-screen relative scroll-mt-50 snap-start ">
+    <section v-if="$about.activeAbout.length != 0" id="o-nas" class="w-full min-h-screen relative scroll-mt-50 snap-start ">
          <header class="relative w-full my-4 flex justify-center">
-            <h2 style="background-image: url('/images/jpg/wiazanki.jpg')"  class="relative w-[50%]  bg-fixed  bg-no-repeat bg-cover bg-center text-center  py-10 text-white text-3xl text-bold uppercase rounded-lg">
+            <h2 style="background-image: url('/images/vector/background.jpg')"  class="relative w-[50%]  bg-fixed  bg-no-repeat bg-cover bg-center text-center  py-10 text-white text-3xl text-bold uppercase rounded-lg">
                 <span class="bg-black/30 px-5 py-3 rounded-lg">
                     O nas 
                 </span>
@@ -68,52 +68,50 @@ onMounted(() => {
                 <div class="w-full md:w-1/2 scale-50 md:scale-100 flex justify-center items-center ">
                     <div class="relative w-100 h-100 flex justify-center items-center -space-x-20">
                         <div class="flex flex-col space-y-20">
-                            <div :class="isSwitchLastText ? 'scale-100 z-10 animated-2' : 'scale-90  -z-1'" class="relative flex flex-col justify-center items-end duration-500">
-                                <img src="/images/jpg/about-2.jpg" alt="About 2" data-aos="fade-down-right" data-aos-duration="1000" class="w-75 h-75 z-10 object-cover rounded-lg">
-    
-    
+                            <div v-if="$about?.activeAbout[0]" :class="isSwitchLastText ? 'scale-100 z-10 animated-2' : 'scale-90  -z-1'" class="relative flex flex-col justify-center items-end duration-500">
+                                <img :src="$about.activeAbout[0]?.preview_image?.preview_url" :alt="$about[0]?.preview_image?.name" data-aos="fade-down-right" data-aos-duration="1000" class="w-75 h-75 z-10 object-cover rounded-lg">
                             </div>
     
-                            <div :class="isSwitchFirstText ? 'scale-100 z-10 animated-2' : 'scale-90 -z-1'"   class=" flex flex-col justify-center items-start duration-500">
-                                <img src="/images/jpg/about-3.jpg" alt="About 3" data-aos="fade-up-left" data-aos-duration="1000" class="w-75 h-75 object-cover rounded-lg">
+                            <div v-if="$about?.activeAbout[1]" :class="isSwitchFirstText ? 'scale-100 z-10 animated-2' : 'scale-90 -z-1'"   class=" flex flex-col justify-center items-start duration-500">
+                                <img :src="$about?.activeAbout[1]?.preview_image?.preview_url" :alt="$about[1]?.preview_image.name" data-aos="fade-up-left" data-aos-duration="1000" class="w-75 h-75 object-cover rounded-lg">
                             </div>
                         </div>
     
-                        <div :class=" isSwitchSecondText  ? 'sale-100 z-10 animated-1' : 'scale-90 -z-1'"  class="duration-500">
-                            <img src="/images/jpg/about-1.jpg" alt="About 1" class=" h-100 h-100 object-cover rounded-lg" data-aos="zoom-in" data-aos-delay="500" data-aos-duration="1000">
+                        <div v-if="$about?.activeAbout[2]" :class=" isSwitchSecondText  ? 'sale-100 z-10 animated-1' : 'scale-90 -z-1'"  class="duration-500">
+                            <img :src="$about?.activeAbout[2]?.preview_image?.preview_url" :alt="$about?.activeAbout[2]?.preview_image?.name" class=" w-75 h-75 object-cover rounded-lg" data-aos="zoom-in" data-aos-delay="500" data-aos-duration="1000">
                         </div>
                     </div>
                 </div>
                 
                 <div class="w-full md:w-1/2 flex flex-col justify-center items-center space-y-2 md:space-y-10 gap-8 group " data-aos="zoom-in" data-aos-delay="500" data-aos-duration="1000">
                     <div 
+                        v-if="$about?.activeAbout[0]"
                         @mousemove="switchToMousemoveTarget(0)"
                         :class="isSwitchFirstText ? 'scale-100 shadow-xl shadow-black' : 'scale-85 blur-sm'"
-                        class="px-7 py-4 box-border  z-10 bg-gradient-to-r from-prime-light to-second-light dark:from-prime-dark dark:to-second-dark rounded-lg group-hover:blur-sm hover:!blur-none group-hover:scale-85 hover:!scale-100  duration-500"
+                        class="w-full text-center px-7 py-4 box-border  z-10 bg-gradient-to-r from-prime-light to-second-light dark:from-prime-dark dark:to-second-dark rounded-lg group-hover:blur-sm hover:!blur-none group-hover:scale-85 hover:!scale-100  duration-500"
                     >
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo odio aliquid eaque deleniti cupiditate ipsam ducimus eius? Necessitatibus consectetur maiores, neque laborum quibusdam, ab voluptatum officiis dolore commodi ad in.</p>
+                        <p>{{ $about?.activeAbout[0]?.description }}</p>
                     </div>
 
                     <div 
+                        v-if="$about?.activeAbout[1]"
                         @mousemove="switchToMousemoveTarget(1)"
                         :class="isSwitchSecondText ? 'scale-100 shadow-xl shadow-black z-20' : 'scale-85 blur-sm'"
-                        class="px-7 py-4 box-border text-bold z-10 bg-gradient-to-r from-prime-light to-second-light dark:from-prime-dark dark:to-second-dark  rounded-lg group-hover:blur-sm hover:!blur-none group-hover:scale-85 hover:!scale-100 duration-500"
+                        class="w-full text-center px-7 py-4 box-border text-bold z-10 bg-gradient-to-r from-prime-light to-second-light dark:from-prime-dark dark:to-second-dark  rounded-lg group-hover:blur-sm hover:!blur-none group-hover:scale-85 hover:!scale-100 duration-500"
                     >
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo odio aliquid eaque deleniti cupiditate ipsam ducimus eius? Necessitatibus consectetur maiores, neque laborum quibusdam, ab voluptatum officiis dolore commodi ad in.</p>
+                        <p>{{ $about?.activeAbout[1]?.description }}</p>
 
                     </div>
 
                     <div
+                        v-if="$about?.activeAbout[2]"
                         @mousemove="switchToMousemoveTarget(2)"
                         :class="isSwitchLastText ? 'scale-100 shadow-xl shadow-black' : 'scale-85 blur-sm'"    
-                        class="px-7 py-4 box-border text-bold z-10 bg-gradient-to-r from-prime-light to-second-light dark:from-prime-dark dark:to-second-dark rounded-lg group-hover:blur-sm hover:!blur-none group-hover:scale-85 hover:!scale-100  duration-500"
+                        class="w-full text-center px-7 py-4 box-border text-bold z-10 bg-gradient-to-r from-prime-light to-second-light dark:from-prime-dark dark:to-second-dark rounded-lg group-hover:blur-sm hover:!blur-none group-hover:scale-85 hover:!scale-100  duration-500"
                     >
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo odio aliquid eaque deleniti cupiditate ipsam ducimus eius? Necessitatibus consectetur maiores, neque laborum quibusdam, ab voluptatum officiis dolore commodi ad in.</p>
+                        <p>{{ $about?.activeAbout[2]?.description }}</p>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     </section>

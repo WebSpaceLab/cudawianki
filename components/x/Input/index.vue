@@ -45,6 +45,10 @@ const props = defineProps({
     error: {
         type: String,
     },
+    name: {
+        type: String,
+        default: 'floating_outlined'
+    }
 })
 
 const emits = defineEmits([
@@ -96,8 +100,9 @@ let labelColor = computed(() => {
             @input="event => emits('update:modelValue', event.target.value)"
             :class="[inputColor, icon & iconPosition === 'left' ? 'pl-10' : 'pl-3', validatedType ? validatedType : '']"
             :placeholder="placeholder ? label : ''"
-            id="floating_outlined"
-            class="block rounded-lg box-border px-2.5 pb-2.5 pt-5 w-full text-sm text-slate-900 bg-black/10 border-0 border-b-2 border-slate-300 appearance-none dark:text-white dark:border-slate-600 focus:outline-none focus:ring-0 peer"
+            :id="name"
+            :name="name"
+            class="block rounded-lg box-border px-2.5 pb-2.5 pt-5 w-full text-sm text-slate-900 bg-black/10 border-0 border-b-2 border-slate-800 appearance-none dark:text-white dark:border-slate-600 focus:outline-none focus:ring-0 peer"
             :type="type"
             :required="required"
             :autofocus="autofocus"
@@ -105,9 +110,9 @@ let labelColor = computed(() => {
         />
 
        <label
-            for="floating_outlined"
+            :for="name"
             :class="[labelColor, icon & iconPosition === 'left' ? 'translate-x-8 peer-focus:translate-x-8' : '', validatedType ? validatedType : '']"
-            class="absolute text-sm text-gray-400 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 "
+            class="absolute text-sm text-gray-800 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 "
         >
             {{ label }}
         </label>

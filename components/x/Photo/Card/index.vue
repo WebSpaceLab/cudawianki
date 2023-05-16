@@ -22,12 +22,12 @@ watch(() => props.selected, (e) => {
            <slot name="selected"></slot>
         </div>
 
-        <div v-if="isShowFieldAction" class="w-30 h-12 absolute top-0 right-0 flex justify-center items-center space-x-2 z-10 px-3 py-1">
+        <div v-if="isShowFieldAction" class="w-12 absolute top-0 right-0 flex flex-col justify-center items-center space-y-2 z-10 px-1 py-2 bg-black/80">
             <slot name="action"></slot>
         </div>
 
         <div class="w-full h-46 relative flex justify-center">
-            <nuxt-img :src="file.filePath" :alt="file.name" class="h-full object-cover" />
+            <img :src="file.preview_url" :alt="file.name" class="h-full object-cover" />
         </div>
 
         <div class="relative h-20 w-full bg-gradient-to-r from-prime-light to-second-light dark:from-prime-dark dark:to-second-dark">

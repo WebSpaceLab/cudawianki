@@ -69,8 +69,6 @@ function getPreviewPages() {
         }
         
     }
-
-    console.log(previewPages.value)
 }
 
 

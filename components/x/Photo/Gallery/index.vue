@@ -8,6 +8,10 @@ const props = defineProps({
         type: String,
         default: 'Adding description section' 
     },
+    transition: {
+       type: Boolean,
+       defaultL: true
+    },
     photos: Object
 })
 
@@ -21,24 +25,14 @@ function getPreviewImage(photo) {
 </script>
 
 <template>
-    <section  class="w-full container mx-auto relative">
-        <header class="flex flex-col justify-center items-center">
-            <h1 class="test-6xl font-medium m-0">
-                {{ name }}
-            </h1>
-
-            <p class="pb-3 text-lg text-gray-700">
-                {{ description }}
-            </p>
-        </header>
-
-        <div class="lg:columns-4 gap-x-8 pt-2">
+    <div  class="w-full container mx-auto relative">
+        <div class=" lg:columns-4 gap-x-8 pt-2">
             <figure data-aos="fade-left" class="rounded-xl [break-inside:avoid]" v-for="photo in photos" :key="photo.id">
                 <img 
                     @click="getPreviewImage(photo)"
                     class="w-full rounded-lg cursor-pointer duration-300 hover:shadow-lg hover:shadow-black"
-                    :src="photo.filePath"
-                    :alt="photo.alt"
+                    :src="photo.preview_url"
+                    :alt="photo.name"
                 />
 
                 <figcaption class="mt-2">{{ photo.name }}</figcaption>
@@ -52,6 +46,12 @@ function getPreviewImage(photo) {
             <Spinner class="w-10 h-10 "  :loading="false"/>
         </div>
 
-        <x-photo-preview :photos="photos"  :preview="previewImage" :isShowPreviewImage="isShowPreviewImage" @close="(event) => isShowPreviewImage = event" @preview="event => previewImage = event" />
-    </section>
+        <x-photo-preview
+            :isShowPreviewImage="isShowPreviewImage"
+            :photos="photos"
+            :preview="previewImage"
+            @close="(event) => isShowPreviewImage = event"
+            @preview="event => previewImage = event"
+        />    
+    </div>
 </template>
